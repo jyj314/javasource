@@ -20,4 +20,8 @@ public class Account {
 		System.out.println("withdraw");
 	}
 
+	public void print() {
+		System.out.println("print");
+	}
+
 }
