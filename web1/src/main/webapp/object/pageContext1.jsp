@@ -6,16 +6,9 @@
 	jsp 내장 객체
 	1) HttpServletRequest request : 사용자의 요청을 가져올 수 있음
     2) HttpServletResponse : 사용자에게 응답할 때 사용
+    3) javax.servlet.jsp.PageContext pageContext :다른 내장 객체에 접근 가능한 객체
     
 --%>
-     <%
-     // request.getParameter() : 품안에 들어있는 정보들 가져오기
-     // ?num=1&age=10 : get 넘어오는 정보들 가져오기
-     
-     
-     request.setCharacterEncoding("utf-8");
-     String name = request.getParameter("username");
-     %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +16,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3><%=name %></h3>
+<%
+	pageContext.forward("forward1.jsp");
+%>
 </body>
 </html>

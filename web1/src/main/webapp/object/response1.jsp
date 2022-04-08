@@ -8,14 +8,6 @@
     2) HttpServletResponse : 사용자에게 응답할 때 사용
     
 --%>
-     <%
-     // request.getParameter() : 품안에 들어있는 정보들 가져오기
-     // ?num=1&age=10 : get 넘어오는 정보들 가져오기
-     
-     
-     request.setCharacterEncoding("utf-8");
-     String name = request.getParameter("username");
-     %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +15,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3><%=name %></h3>
+<h1>Response</h1>
+<%
+	//페이지이동
+	//response.sendRedirect("num.jsp");
+
+	response.sendRedirect("http://www.naver.com");
+%>
 </body>
 </html>
