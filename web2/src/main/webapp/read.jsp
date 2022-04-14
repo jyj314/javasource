@@ -5,15 +5,14 @@
 <%
 	//request 영역에서 값 가져오기
 	MemberDTO dto =(MemberDTO)request.getAttribute("dto");
-
 %>
 
 <h1>Read</h1>
-<form action="InsertProcess.jsp" method="post">
+<form action="" method="post">
 	<div class="form-group row">
 		<label for="id" class="col-sm-2 col-form-label">ID</label>
 		<div class="col-sm-8">
-		<input type="text" name="id" id="id" class="form-control" value="<%=dto.getId() %>" readonly />
+		<input type="text" name="id" id="id" class="form-control" value="<%=dto.getId()%>" readonly />
 		</div>
 	</div>
 		<div class="form-group row">
@@ -42,10 +41,39 @@
 	</div>
 	<div class="form-group row">
 		<div class="col-sm-10">
-			<button type="submit" class="btn btn-primary">입력</button>
-			<button type="reset" class="btn btn-danger">취소ㅓ</button>
+			<button type="submit" class="btn btn-primary">수정</button>
+			<button type="submit" class="btn btn-danger">삭제</button>
 		</div>
 	</div>
 </form>
+<script src="/js/jquery-3.6.0.min.js"></script>
+<script>
+	
+	//전송할 폼 가져오기
+	let form = $("form");
+
+	//삭제 클릭 시 removeProcess로 폼 보내기
+	$(".btn-danger").click(function(e){
+		e.preventDefault();
+		$(form).attr("action","removeProcess.jsp");
+		$(form).submit();
+	})
+	//수정 클릭 시 modifyProcess로 폼 전송	
+	$(".btn-primary").click(function(e){
+		e.preventDefault();
+		$(form).attr("action","modifyProcess.jsp");
+		$(form).submit();
+		
+	})
+</script>
 <%@ include file="./layout/footer.jsp" %>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	

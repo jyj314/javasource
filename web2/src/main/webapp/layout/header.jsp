@@ -11,6 +11,6 @@
 <body>
 <div class="container-fluid">
 	<div class="topnav">
-		<a href="#">MEMBER 입력</a>
+		<a href="/insert.jsp">MEMBER 입력</a>
 		<a href="../list.jsp">MEMBER 전체조회</a>
 	</div>
