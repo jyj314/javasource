@@ -9,7 +9,7 @@
 			<select name="category" id="category" class="form-control">
 				<option value="outwear">아웃웨어</option>
 				<option value="fulldress">정장/신사복</option>
-				<option value="tshirys">티셔츠</option>
+				<option value="tshirts">티셔츠</option>
 				<option value="와이셔츠">와이셔츠</option>
 				<option value="바지">바지</option>
 				<option value="슈즈">슈즈</option>
