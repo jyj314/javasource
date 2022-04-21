@@ -56,23 +56,45 @@ public class BoardDAO {
 	      List<BoardDTO> list = new ArrayList<>();
 	      PreparedStatement pstmt = null;
 	      ResultSet rs = null;
+	      String sql="";
 	      //String sql = "select bno,title,name,regdate,readcount,re_ref,re_seq,re_lev from board order by re_ref desc, re_seq asc";
-	      
-	      String sql = " select * from(select rownum as rnum, A.* ";
-	    		sql+=" from (select bno, title, name, regdate, readcount, re_ref, re_lev, re_seq ";
-	    		sql+=" from board ";
-	    		sql+=" where bno > 0 order by re_ref desc, re_seq asc) A ";
-	    		sql+="	where rownum <= ?) ";
-				sql+="	where rnum > ? ";
-	      
+	 try {
+
 	      int start = searchDto.getPage() * searchDto.getAmount();
 	      int end = (searchDto.getPage()-1) * searchDto.getAmount();
 	      
-	      try {
-	    	  pstmt = con.prepareStatement(sql);
-	    	  
-	    	  pstmt.setInt(1, start);
-	    	  pstmt.setInt(2, end);
+	      //리스트 요청
+	      	if(searchDto.getCriteria().isEmpty()) {
+	      		
+	        sql = " select * from(select rownum as rnum, A.* ";
+    		sql+=" from (select bno, title, name, regdate, readcount, re_ref, re_lev, re_seq ";
+    		sql+=" from board ";
+    		sql+=" where bno > 0 order by re_ref desc, re_seq asc) A ";
+    		sql+="	where rownum <= ?) ";
+			sql+="	where rnum > ? ";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+	      	
+	      	}else{//검색 요청
+			
+	      	sql = " select * from(select rownum as rnum, A.* ";
+    		sql+=" from (select bno, title, name, regdate, readcount, re_ref, re_lev, re_seq ";
+    		sql+=" from board ";
+    		sql+=" where bno > 0 and "+ searchDto.getCriteria() +" like ? order by re_ref desc, re_seq asc) A ";
+    		sql+="	where rownum <= ?) ";
+			sql+="	where rnum > ? ";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+searchDto.getKeyword()+"%");
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			
+			
+	      	}
 	    	  
 	    	  rs=pstmt.executeQuery();
 	    	  while(rs.next()) {
@@ -98,13 +120,23 @@ public class BoardDAO {
 	      return list;
 	   }
 	// 전체 게시물 개수
-		public int totalRows() {
+		public int totalRows(String criteria, String keyword) {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-			String sql = "select count(*) from board";
+			String sql = "";
+			
 			int total = 0;
 			try {
-				pstmt = con.prepareStatement(sql);
+				
+				if(criteria.isEmpty()) {
+					sql = "select count(*) from board";
+					pstmt = con.prepareStatement(sql);					
+				}else {
+					sql = "select count(*) from board where "+criteria+" like ?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+keyword+"%");
+				}
+				
 				rs = pstmt.executeQuery();
 				
 				if(rs.next()) {

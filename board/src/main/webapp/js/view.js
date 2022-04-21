@@ -2,12 +2,14 @@
  * qna_board_view.jsp 스크립트
  */
 $(function(){
-	$("#list").click(function(){
-		location.href = "/qList.do"
-	})
 	
-
 	let formObj = $("#actionForm");	
+	
+	$("#list").click(function(){
+		formObj.attr("action","/qList.do");
+		formObj.submit();
+	})
+
 	
 	$("#delete").click(function(){
 		

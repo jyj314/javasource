@@ -1,5 +1,6 @@
 package board.action;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,13 +38,20 @@ public class BoardInsertAction implements Action {
 //		insertDto.setContent(request.getParameter("content"));
 //		insertDto.setPassword(request.getParameter("password"));
 		
+		// 페이지 나누기 후 추가되는 부분
+		String page = dataMap.get("page");
+		String amount = dataMap.get("amount");
+		String criteria = dataMap.get("criteria");
+		String keyword = URLEncoder.encode(dataMap.get("keyword"),"utf-8");
 		
 		// service 호출
 		BoardInsertService service = new BoardInsertService();
 		
 		// 성공 qList.do ,입력실패시 경로 qna_board_write.jsp
 		if(!service.insert(insertDto)) {
-			path = "/view/qna_board_write.jsp"; 
+			path = "/view/qna_board_write.jsp?page="+page+"&amount="+amount+"&criteria="+criteria+"&keyword="+keyword;  
+		}else {
+			path += "?&page="+page+"&amount="+amount+"&criteria="+criteria+"&keyword="+keyword; 
 		}
 		
 		// ActionForward 객체 생성 후 리턴
